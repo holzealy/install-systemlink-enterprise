@@ -62,13 +62,20 @@ s3Port: &s3Port 443
 # <ATTENTION> To connect to a region other than us-east-1, change this value.
 ##
 s3Region: &s3Region "us-east-1"
+## S3 authentication method. When using AWS_IAM, the service assumes an IAM role via EKS pod
+## identity by default. The role may also be specified via IRSA (requires configuring
+## "serviceAccount.annotations") or EC2 instance metadata (may require configuring "nodeSelector").
+##
+authType: &authType "AWS_IAM"
 
 assetservicecdc:
   highAvailability:
     storage:
       type: "s3"
       s3:
+        authType: *authType
         ## The name of the S3 bucket to which the service connects.
+        ##
         bucket: "systemlink-flink"
         scheme: *s3Scheme
         host: *s3Host
@@ -79,13 +86,10 @@ dataframeservice:
   storage:
     type: s3
     s3:
-      ## The service assumes an IAM role via EKS pod identity by default when using AWS_IAM.
-      ## The role may also be specified via IRSA (requires configuring "serviceAccount.annotations")
-      ## or EC2 instance metadata (may require configuring "nodeSelector").
       ## When using AWS_IAM, you must also configure "sldremio.distStorage.aws.authentication"
       ## and "sldremio.storage.s3.authType" (see the "sldremio" section).
       ##
-      authType: "AWS_IAM"
+      authType: *authType
       ## The name of an existing S3 bucket for the DataFrame Service to connect to.
       ##
       bucket: "systemlink-dataframe"
@@ -138,9 +142,6 @@ dataframeservice:
     ##
     storage:
       s3:
-        ## The service assumes an IAM role from the EC2 instance metadata as the S3 authentication
-        ## method for accessing table data (may require configuring "sldremio.nodeSelector").
-        ##
         authType: "EC2_METADATA"
         # <ATTENTION> - Optional - Uncomment and enter the ARN of the IAM role to assume once authenticated.
         ##
@@ -169,11 +170,7 @@ feedservice:
   storage:
     type: "s3"
     s3:
-      ## The service assumes an IAM role via EKS pod identity by default when using AWS_IAM.
-      ## The role may also be specified via IRSA (requires configuring "serviceAccount.annotations")
-      ## or EC2 instance metadata (may require configuring "nodeSelector").
-      ##
-      authType: "AWS_IAM"
+      authType: *authType
       ## The name of the S3 bucket for the Feed Service to connect to.
       ##
       bucket: "systemlink-feeds"
@@ -199,11 +196,7 @@ fileingestion:
   storage:
     type: "s3"
     s3:
-      ## The service assumes an IAM role via EKS pod identity by default when using AWS_IAM.
-      ## The role may also be specified via IRSA (requires configuring "serviceAccount.annotations")
-      ## or EC2 instance metadata (may require configuring "nodeSelector").
-      ##
-      authType: "AWS_IAM"
+      authType: *authType
       ## The name of the S3 bucket for the File Ingestion Service to connect to.
       ##
       bucket: "systemlink-file-ingestion"
@@ -235,7 +228,9 @@ fileingestioncdc:
     storage:
       type: "s3"
       s3:
+        authType: *authType
         ## The name of the S3 bucket to which the service connects.
+        ##
         bucket: "systemlink-flink"
         scheme: *s3Scheme
         host: *s3Host
@@ -256,11 +251,7 @@ nbexecservice:
   storage:
     type: "s3"
     s3:
-      ## The service assumes an IAM role via EKS pod identity by default when using AWS_IAM.
-      ## The role may also be specified via IRSA (requires configuring "serviceAccount.annotations")
-      ## or EC2 instance metadata (may require configuring "nodeSelector").
-      ##
-      authType: "AWS_IAM"
+      authType: *authType
       ## The name of the S3 bucket for the Notebook Execution Service to connect to.
       ##
       bucket: "systemlink-executions"
