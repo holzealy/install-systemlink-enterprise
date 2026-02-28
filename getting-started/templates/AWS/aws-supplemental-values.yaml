@@ -98,9 +98,10 @@ assetservicecdc:
       # "eks.amazonaws.com/role-arn":
     ## The name of the shared Flink service account defined in the pod spec when creating the IAM
     ## identity association (IRSA or EKS Pod Identity).
-    # <ATTENTION> - Uncomment and set this value to the name of the Flink service account.
+    # <ATTENTION> - Uncomment and set this value to the name of the Flink service account. If unset,
+    # a name is generated using the format below.
     ##
-    # name:
+    # name: "<release-name>-flink"
 
 dataframeservice:
   storage:
@@ -177,11 +178,11 @@ dataframeservice:
       # this service account.
       ##
       # "eks.amazonaws.com/role-arn":
-    ## The name of the service account to specify in the pod spec when creating the IAM identity
+    ## The name of the service account defined in the pod spec when creating the IAM identity
     ## association (IRSA or EKS Pod Identity).
-    # <ATTENTION> - Uncomment and set this value. If not set, a name is generated based on the service name.
+    # <ATTENTION> - Uncomment and set this value. If unset, a name is generated using the format below.
     ##
-    # name:
+    # name: "<release name>-dataframeservice"
 
 feedservice:
   storage:
@@ -204,11 +205,11 @@ feedservice:
       # this service account.
       ##
       # "eks.amazonaws.com/role-arn":
-    ## The name of the service account to specify in the pod spec when creating the IAM identity
+    ## The name of the service account defined in the pod spec when creating the IAM identity
     ## association (IRSA or EKS Pod Identity).
-    # <ATTENTION> - Uncomment and set this value. If not set, a name is generated based on the service name.
+    # <ATTENTION> - Uncomment and set this value. If unset, a name is generated using the format below.
     ##
-    # name:
+    # name: "<release name>-feedservice"
 
 fileingestion:
   storage:
@@ -236,11 +237,11 @@ fileingestion:
       # this service account.
       ##
       # "eks.amazonaws.com/role-arn":
-    ## The name of the service account to specify in the pod spec when creating the IAM identity
+    ## The name of the service account defined in the pod spec when creating the IAM identity
     ## association (IRSA or EKS Pod Identity).
-    # <ATTENTION> - Uncomment and set this value. If not set, a name is generated based on the service name.
+    # <ATTENTION> - Uncomment and set this value. If unset, a name is generated using the format below.
     ##
-    # name:
+    # name: "<release name>-fileingestion"
 
 fileingestioncdc:
   highAvailability:
@@ -268,9 +269,10 @@ fileingestioncdc:
       # "eks.amazonaws.com/role-arn":
     ## The name of the shared Flink service account defined in the pod spec when creating the IAM
     ## identity association (IRSA or EKS Pod Identity).
-    # <ATTENTION> - Uncomment and set this value to the name of the Flink service account.
+    # <ATTENTION> - Uncomment and set this value to the name of the Flink service account. If unset,
+    # a name is generated using the format below.
     ##
-    # name:
+    # name: "<release-name>-flink"
 
 saltmaster:
   serviceTCP:
@@ -305,11 +307,11 @@ nbexecservice:
       # this service account.
       ##
       # "eks.amazonaws.com/role-arn":
-    ## The name of the service account to specify in the pod spec when creating the IAM identity
+    ## The name of the service account defined in the pod spec when creating the IAM identity
     ## association (IRSA or EKS Pod Identity).
-    # <ATTENTION> - Uncomment and set this value. If not set, a name is generated based on the service name.
+    # <ATTENTION> - Uncomment and set this value. If unset, a name is generated using the format below.
     ##
-    # name:
+    # name: "<release name>-nbexecservice"
 
 swaggerapi:
   ingress:
