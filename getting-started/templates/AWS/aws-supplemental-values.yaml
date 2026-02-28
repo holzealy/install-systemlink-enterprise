@@ -66,6 +66,8 @@ s3Region: &s3Region "us-east-1"
 ## Identity by default (see the "serviceAccount" section). The role may also be specified via
 ## IRSA (requires configuring "serviceAccount.annotations") or EC2 instance metadata (may require
 ## configuring "nodeSelector").
+## The Flink operator manages one shared service account for AssetServiceCDC and FileIngestionCDC.
+## Configure IAM identity for that shared account rather than each CDC service.
 ## Refer to the product documentation for more details: https://www.ni.com/r/sl-configure-file-storage.
 ##
 authType: &authType "AWS_IAM"
@@ -83,6 +85,22 @@ assetservicecdc:
         host: *s3Host
         port: *s3Port
         region: *s3Region
+
+  ## See top-level "authType" note for CDC shared identity guidance.
+  ##
+  serviceAccount:
+    ## Annotations to add to the service account
+    ##
+    annotations:
+      # <ATTENTION> - To use IRSA, uncomment and enter the ARN of the IAM role to associate with
+      # the shared Flink service account used by CDC workloads.
+      ##
+      # "eks.amazonaws.com/role-arn":
+    ## The name of the shared Flink service account defined in the pod spec when creating the IAM
+    ## identity association (IRSA or EKS Pod Identity).
+    # <ATTENTION> - Uncomment and set this value to the name of the Flink service account.
+    ##
+    # name:
 
 dataframeservice:
   storage:
@@ -237,6 +255,22 @@ fileingestioncdc:
         host: *s3Host
         port: *s3Port
         region: *s3Region
+
+  ## See top-level "authType" note for CDC shared identity guidance.
+  ##
+  serviceAccount:
+    ## Annotations to add to the service account
+    ##
+    annotations:
+      # <ATTENTION> - To use IRSA, uncomment and enter the ARN of the IAM role to associate with
+      # the shared Flink service account used by CDC workloads.
+      ##
+      # "eks.amazonaws.com/role-arn":
+    ## The name of the shared Flink service account defined in the pod spec when creating the IAM
+    ## identity association (IRSA or EKS Pod Identity).
+    # <ATTENTION> - Uncomment and set this value to the name of the Flink service account.
+    ##
+    # name:
 
 saltmaster:
   serviceTCP:
