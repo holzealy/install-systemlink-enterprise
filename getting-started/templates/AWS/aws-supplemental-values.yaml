@@ -62,9 +62,11 @@ s3Port: &s3Port 443
 # <ATTENTION> To connect to a region other than us-east-1, change this value.
 ##
 s3Region: &s3Region "us-east-1"
-## S3 authentication method. When using AWS_IAM, the service assumes an IAM role via EKS pod
-## identity by default. The role may also be specified via IRSA (requires configuring
-## "serviceAccount.annotations") or EC2 instance metadata (may require configuring "nodeSelector").
+## S3 authentication method. When using AWS_IAM, the service assumes an IAM role via EKS Pod
+## Identity by default (see the "serviceAccount" section). The role may also be specified via
+## IRSA (requires configuring "serviceAccount.annotations") or EC2 instance metadata (may require
+## configuring "nodeSelector").
+## Refer to the product documentation for more details: https://www.ni.com/r/sl-configure-file-storage.
 ##
 authType: &authType "AWS_IAM"
 
@@ -147,10 +149,8 @@ dataframeservice:
         ##
         # roleArn:
 
-    ## Node labels for pods assignment
-    ##
-    nodeSelector: {}
-
+  ## A Kubernetes service account is created for the DataFrame Service by default.
+  ##
   serviceAccount:
     ## Annotations to add to the service account
     ##
@@ -159,12 +159,11 @@ dataframeservice:
       # this service account.
       ##
       # "eks.amazonaws.com/role-arn":
-    # <ATTENTION> - Optional - Uncomment to specify a name for the service account. If unset, a
-    # name is generated based on the service name.
+    ## The name of the service account to specify in the pod spec when creating the IAM identity
+    ## association (IRSA or EKS Pod Identity).
+    # <ATTENTION> - Uncomment and set this value. If not set, a name is generated based on the service name.
     ##
     # name:
-
-  nodeSelector: {}
 
 feedservice:
   storage:
@@ -187,8 +186,9 @@ feedservice:
       # this service account.
       ##
       # "eks.amazonaws.com/role-arn":
-    # <ATTENTION> - Optional - Uncomment to specify a name for the service account. If unset, a
-    # name is generated based on the service name.
+    ## The name of the service account to specify in the pod spec when creating the IAM identity
+    ## association (IRSA or EKS Pod Identity).
+    # <ATTENTION> - Uncomment and set this value. If not set, a name is generated based on the service name.
     ##
     # name:
 
@@ -208,6 +208,8 @@ fileingestion:
       port: *s3Port
       region: *s3Region
 
+  ## A Kubernetes service account is created for the File Ingestion Service by default.
+  ##
   serviceAccount:
     ## Annotations to add to the service account
     ##
@@ -216,12 +218,11 @@ fileingestion:
       # this service account.
       ##
       # "eks.amazonaws.com/role-arn":
-    # <ATTENTION> - Optional - Uncomment to specify a name for the service account. If unset, a
-    # name is generated based on the service name.
+    ## The name of the service account to specify in the pod spec when creating the IAM identity
+    ## association (IRSA or EKS Pod Identity).
+    # <ATTENTION> - Uncomment and set this value. If not set, a name is generated based on the service name.
     ##
     # name:
-
-  nodeSelector: {}
 
 fileingestioncdc:
   highAvailability:
@@ -260,6 +261,8 @@ nbexecservice:
       port: *s3Port
       region: *s3Region
 
+  ## A Kubernetes service account is created for the Notebook Execution Service by default.
+  ##
   serviceAccount:
     ## Annotations to add to the service account
     ##
@@ -268,12 +271,11 @@ nbexecservice:
       # this service account.
       ##
       # "eks.amazonaws.com/role-arn":
-    # <ATTENTION> - Optional - Uncomment to specify a name for the service account. If unset, a
-    # name is generated based on the service name.
+    ## The name of the service account to specify in the pod spec when creating the IAM identity
+    ## association (IRSA or EKS Pod Identity).
+    # <ATTENTION> - Uncomment and set this value. If not set, a name is generated based on the service name.
     ##
     # name:
-
-  nodeSelector: {}
 
 swaggerapi:
   ingress:
